@@ -1,4 +1,4 @@
-# Nodejs FES Template
+# Nodejs Generative AI API
 
 # Environment vars
 This project uses the following environment variables:
@@ -9,7 +9,7 @@ This project uses the following environment variables:
 
 
 # Pre-requisites
-- Install [Node.js](https://nodejs.org/en/) version 8.0.0
+- Install [Node.js](https://nodejs.org/en/) version v22.12.0
 
 
 # Getting started
