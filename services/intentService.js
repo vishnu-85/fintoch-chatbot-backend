@@ -12,7 +12,7 @@ export async function extractIntent(query, history = []) {
   try {
     const historyText = history.map(h => `User: ${h.user} | Bot: ${h.assistant}`).join("\n");
     const raw = await chain.invoke({ query, history: historyText || "None" });
-    
+      
     // Clean markdown code fences
     const cleaned = raw.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
     const parsed = JSON.parse(cleaned);

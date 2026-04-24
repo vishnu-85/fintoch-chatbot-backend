@@ -7,12 +7,11 @@ import memoryStore from "../utils/memory.js";
 const router = express.Router();
 
 
-router.get("/stock", async (req, res) => {
-  const { query, sessionId = "default" } = req.query;
-  if (!query) return res.status(400).json({ error: "Query required" });
-
+router.get("/history", async (req, res) => {
   try {
-    res.json({summary: `You searched for stock: ${query}`, data: [], links: [] });
+    const { sessionId = "default" } = req.query;
+    const history = memoryStore.getHistory(sessionId);
+    res.json({data: history});
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to process query" });
@@ -35,7 +34,7 @@ router.post("/chat", async (req, res) => {
 
     // 4. Generate final response (summary + links)
     const response = await generateResponse(query, category, data);
-
+    
     // 5. Store in memory
     memoryStore.addEntry(sessionId, { user: query, assistant: response.summary });
 

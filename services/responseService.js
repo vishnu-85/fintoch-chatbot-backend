@@ -3,23 +3,22 @@ import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 
 const summaryPrompt = ChatPromptTemplate.fromMessages([
-  ["system", `You are a JSON‑only financial assistant. Your entire response must be a single, valid JSON object with exactly three fields: "summary", "data", "links". Do not include any text before or after the JSON, no markdown.
-Example response format:
-{{"summary": "Top IT stock is TCS with price 3845.", "data": [{{"symbol":"TCS","name":"Tata Consultancy Services","price":3845}}], "links": [{{"label":"View TCS Details","url":"/stocks/TCS"}}]}}
-Now return only valid JSON for the following query.`],
+  ["system", `You are a JSON‑only financial assistant. Your entire response must be a single, valid JSON object with exactly three fields: "summary", "data", "links". Do not include any text before or after the JSON, no markdown. Now return only valid JSON for the following query.`],
   ["human", `User query: {query}
-Category: {category}
-Fetched data (JSON array): {data}`]
+    Category: {category}
+    Fetched data (JSON array): {data}`]
 ]);
 const chain = summaryPrompt.pipe(llm).pipe(new StringOutputParser());
 
 export async function generateResponse(query, category, data) {
-  const promptValue = await summaryPrompt.invoke({
+   const dataSlice = data.slice(0, 5);
+  // Directly invoke the chain with the required variables
+  const responseText = await chain.invoke({
     query,
     category,
-    data: JSON.stringify(data.slice(0, 5))
+    data: JSON.stringify(dataSlice, null, 2)
   });
-  const responseText = await llm.invoke(promptValue);
+  
   try {
     // Clean potential markdown code fences
     const cleaned = responseText.replace(/```json\n?/g, "").replace(/```\n?/g, "");

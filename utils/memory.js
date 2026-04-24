@@ -10,4 +10,8 @@ export default {
     sessions.set(sessionId, existing);
   },
   clearSession: (sessionId) => sessions.delete(sessionId),
+  getLastN: (sessionId, n) => {
+    const all = sessions.get(sessionId) || [];
+    return all.slice(-n);
+  }
 };
