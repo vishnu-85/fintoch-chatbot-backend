@@ -17,9 +17,14 @@ ollama serve
 
 # For check ollama runing
 
-Open browser and hit - http://127.0.0.1:11434/ 
-Result - Ollama is running
+- Open browser and hit - http://127.0.0.1:11434/ 
+- Result - Ollama is running
 
+# Stop Ollama 
+```
+taskkill /f /im ollama.exe
+
+```
 
 # Pre-requisites
 - Install [Node.js](https://nodejs.org/en/) version v22.12.0
