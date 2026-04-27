@@ -12,9 +12,9 @@ app.use(express.json());
 app.use("/api", chatRoutes);
 
 // Optional: direct mock endpoints for frontend
-app.get("/api/stocks", (req, res) => {
+app.get("/api/hello", (req, res) => {
   // mocked - in real app call service
-  res.json([{ symbol: "TCS", name: "Tata Consultancy Services", sector: "IT" }]);
+  res.json([{ message: "Hello, how are you" }]);
 });
 
 const PORT = process.env.PORT || 3000;
