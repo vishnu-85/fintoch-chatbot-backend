@@ -6,22 +6,22 @@ import { llm } from "../config/ollama.js";
 const router = express.Router();
 
 
-router.get("/chat", async (req, res) => {
+router.post("/chat", async (req, res) => {
 
   try {
     const wordlimit = 50;
-    const {course } = req.query;
+    const {query, sessionId } = req.body;
 
     const promptTemplate = new PromptTemplate({
-      template: "What is {course}? Limit the output to {wordlimit} words.",
-      inputVariables: ["course", "wordlimit"],
+      template: "What is {query}? Limit the output to {wordlimit} words.",
+      inputVariables: ["query", "wordlimit"],
     });
 
     // ✅ Correct: pipe template directly
     const chain = promptTemplate.pipe(llm);
 
     const answer = await chain.invoke({
-      course,
+      query,
       wordlimit
     });
 
